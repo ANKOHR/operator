@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+state/
+reports/
+data/
+op-codex.log
+op-launch.py
+op-prompt.txt

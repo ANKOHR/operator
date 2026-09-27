@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools==75.8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "operator-monthly"
+version = "0.1.0"
+description = "A deterministic monthly management pack system for synthetic companies"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.2"]
+
+[project.scripts]
+operator = "operator_app.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["operator_app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
