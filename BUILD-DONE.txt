@@ -1,0 +1,3 @@
+Tests: 8 passed
+Local commit hash: 26ccc6289ccab7d94df73e09ac91f0f0607dffa1
+Summary: Built Operator as a deterministic Python CLI for synthetic company generation, validated SQLite ingestion with quarantine, cash and revenue reconciliation, threshold-based alerts with source tracing, bottleneck and department analysis, and stateful risks, decisions, and action escalation. It writes Markdown and HTML management packs plus a spoken briefing. Runtime code uses the Python standard library, and company figures are explicitly labeled synthetic.
