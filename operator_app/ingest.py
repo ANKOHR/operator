@@ -244,7 +244,7 @@ def ingest_month(db_path: str | Path, raw: dict[str, Any]) -> dict[str, Any]:
                     (month, row["source"], row["record_id"], row["reason"], json.dumps(row["raw"], sort_keys=True)),
                 )
             _state_from_month(connection, month)
-        return {"month": month, "records_loaded": len(_flatten_records(clean)), "quarantined": quarantined}
+        return {"synthetic": True, "month": month, "records_loaded": len(_flatten_records(clean)), "quarantined": quarantined}
     finally:
         connection.close()
 

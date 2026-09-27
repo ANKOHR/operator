@@ -124,11 +124,11 @@ def run(args: argparse.Namespace) -> int:
         hydrate_through(args.db, args.data, args.month)
         if args.command == "pack":
             paths = write_reports(args.db, args.data, args.month, args.out)
-            _json({key: str(value) for key, value in paths.items()})
+            _json({"synthetic": True, **{key: str(value) for key, value in paths.items()}})
         elif args.command == "brief":
-            _json({"brief": str(write_brief(args.db, args.data, args.month, args.out))})
+            _json({"synthetic": True, "brief": str(write_brief(args.db, args.data, args.month, args.out))})
         else:
-            _json(analyze_month(get_month_data(args.db, args.month))["alerts"])
+            _json({"synthetic": True, "month": args.month, "alerts": analyze_month(get_month_data(args.db, args.month))["alerts"]})
         return 0
     if args.command == "trace":
         match = re.match(r"^ALT-(\d{4}-\d{2})-", args.alert_id)
@@ -136,32 +136,32 @@ def run(args: argparse.Namespace) -> int:
             raise ValueError("alert ID must use the form ALT-YYYY-MM-RULE_ID")
         month = match.group(1)
         hydrate_through(args.db, args.data, month)
-        _json(trace_alert(get_month_data(args.db, month), args.alert_id))
+        _json({"synthetic": True, **trace_alert(get_month_data(args.db, month), args.alert_id)})
         return 0
     if args.command == "decisions":
         _default_decisions(args)
         if args.operation == "list":
-            _json(list_decisions(args.db, outstanding_only=not args.all))
+            _json({"synthetic": True, "decisions": list_decisions(args.db, outstanding_only=not args.all)})
         elif args.operation == "create":
             decision_id = create_decision(args.db, args.month, args.title, args.context, args.option, args.owner)
-            _json({"decision_id": decision_id, "status": "pending"})
+            _json({"synthetic": True, "decision_id": decision_id, "status": "pending"})
         elif args.operation == "resolve":
             resolve_decision(args.db, args.id)
-            _json({"decision_id": args.id, "status": "resolved"})
+            _json({"synthetic": True, "decision_id": args.id, "status": "resolved"})
         return 0
     if args.command == "actions":
         args.operation = args.operation or "list"
         if args.operation == "list":
-            _json(list_actions(args.db, outstanding_only=not args.all))
+            _json({"synthetic": True, "actions": list_actions(args.db, outstanding_only=not args.all)})
         else:
             close_action(args.db, args.id)
-            _json({"action_id": args.id, "status": "closed"})
+            _json({"synthetic": True, "action_id": args.id, "status": "closed"})
         return 0
     if args.command == "risks":
-        _json(list_risks(args.db, outstanding_only=not args.all))
+        _json({"synthetic": True, "risks": list_risks(args.db, outstanding_only=not args.all)})
         return 0
     if args.command == "quarantine":
-        _json(list_quarantine(args.db, args.month))
+        _json({"synthetic": True, "month": args.month, "quarantine": list_quarantine(args.db, args.month)})
         return 0
     return 2
 
